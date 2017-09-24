@@ -1,0 +1,50 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"declaration": true,
+		"stripInternal": true,
+		"target": "es5",
+		"module": "es2015",
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"strictNullChecks": true,
+		"noImplicitAny": true,
+		"sourceMap": true,
+		"noEmitHelpers": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"skipLibCheck": true,
+		"paths": {
+			"@angular/*": [
+				"node_modules/@angular/*"
+			],
+			"rxjs/*": [
+				"node_modules/rxjs/*"
+			],
+			"@savantly/*" : [
+				"node_modules/@savantly/*"
+			]
+        },
+		"lib": [
+		    "es2015",
+			"dom"
+		],
+		"rootDir": ".",
+		"outDir": "./dist"
+	},
+	"compileOnSave": false,
+	"buildOnSave": false,
+	"exclude": [
+    "node_modules"
+    ],
+    "awesomeTypescriptLoaderOptions": {
+		"forkChecker": true,
+		"useWebpackText": true
+	},
+	"angularCompilerOptions": {
+		"strictMetadataEmit": true,
+		"skipTemplateCodegen": true,
+		"genDir": "./aot"
+    }
+}
