@@ -1,3 +1,4 @@
+import { SproutPluginLoaderComponent } from './sprout-plugin-loader.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -6,7 +7,7 @@ import { CommonModule } from '@angular/common';
     CommonModule
   ],
   exports: [],
-  declarations: [],
+  declarations: [SproutPluginLoaderComponent],
   providers: []
 })
 export class SproutPluginModule { }

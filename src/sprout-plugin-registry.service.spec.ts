@@ -8,7 +8,7 @@ describe('MenuService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [],
-      providers: [SproutPluginRegistryService, ],
+      providers: [SproutPluginRegistryService],
       declarations: []
     });
   });
