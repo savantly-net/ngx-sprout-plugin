@@ -4,7 +4,7 @@
 		"declaration": true,
 		"stripInternal": true,
 		"target": "es5",
-		"module": "es2015",
+		"module": "CommonJs",
 		"moduleResolution": "node",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
@@ -14,29 +14,11 @@
 		"noEmitHelpers": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"skipLibCheck": true,
-		"paths": {
-			"*": [
-				"./node_modules/*"
-			]
-        },
-		"lib": [
-		    "es2015",
-			"dom"
-		],
-		"rootDir": "./src",
-		"outDir": "./dist"
-	},
-	"files":["./src/index.ts"],
+		"skipLibCheck": true
+    },
     "compileOnSave": false,
 	"buildOnSave": false,
 	"exclude": [
     "./node_modules"
-    ],
-	"angularCompilerOptions": {
-        "annotateForClosureCompiler": true,
-        "strictMetadataEmit": true,
-		"skipTemplateCodegen": true,
-		"genDir": "./aot"
-    }
+    ]
 }

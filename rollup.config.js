@@ -7,9 +7,46 @@ import uglify from 'rollup-plugin-uglify';
 import pkgGen from 'rollup-plugin-pkg-generator';
 import autoExternal from 'rollup-plugin-auto-external';
 import pkg from './package.json';
+var fs = require('fs');
 
 import { minify } from 'uglify-es';
 
+function copyFile(source, target, cb) {
+  var cbCalled = false;
+
+  var rd = fs.createReadStream(source);
+  rd.on("error", function(err) {
+    done(err);
+  });
+  var wr = fs.createWriteStream(target);
+  wr.on("error", function(err) {
+    done(err);
+  });
+  wr.on("close", function(ex) {
+    done();
+  });
+  rd.pipe(wr);
+
+  function done(err) {
+    if (!cbCalled) {
+      cb(err);
+      cbCalled = true;
+    }
+  }
+}
+
+var glob = require("glob");
+var files = glob.sync("(src/**/*!(*.ts)");
+
+files.map(function(file){
+	console.log('found file: ' + file);
+	copyFile(file, './dist/' + file.substr(4), function(err){
+	  if(err) {
+        console.error(err);
+        process.exit(1);
+	  };
+	});
+});
 
 function cleanName(name){
 	var parts = name.split('/');
@@ -19,24 +56,22 @@ function cleanName(name){
 	return name;
 }
 
+const entryFile = './src/index.ts';
+const esFile = 'index.js';
+const bundleFile = cleanName(pkg.name) + '.umd.js';
+const minFile = cleanName(pkg.name) + '.umd.min.js';
 const targetFolder = './dist/';
-const browserFile = cleanName(pkg.name) + '.es5.js';
-const moduleFile = 'index.js';
-const minFile = cleanName(pkg.name) + '.es5.min.js';
 
 var umdConfig = {
-		input : './index.ts',
+		input : entryFile,
 		output : {
-			file : targetFolder + browserFile,
-			format : 'es',
+			file : targetFolder + bundleFile,
+			format : 'umd',
 			exports: 'named'
 		},
 		sourcemap : true,
-		name : browserFile.split('.')[0].replace(/-/g, '_'),
+		name : bundleFile.split('.')[0].replace(/-/g, '_'),
 		plugins : [
-			copy({
-				'./src': './dist/src'
-			}),
 			angular(),
 			typescript(),
 			resolve({
@@ -50,10 +85,10 @@ var umdConfig = {
 };
 
 var minifyConfig = {
-		input : './index.ts',
+		input : entryFile,
 		output : {
 			file : targetFolder + minFile,
-			format : 'es',
+			format : 'umd',
 			exports: 'named'
 		},
 		sourcemap : true,
@@ -70,9 +105,10 @@ var minifyConfig = {
 			commonjs(),
 			uglify({}, minify),
 			pkgGen({pkg:{
-				main: 'index.js',
-				module: moduleFile,
-				browser: browserFile,
+				main: bundleFile,
+				module: esFile,
+				"jsnext:main": esFile,
+				browser: bundleFile,
 				dependencies: pkg.peerDependencies,
 				devDependencies: {},
 				scripts: {},
