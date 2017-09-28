@@ -1,7 +1,5 @@
 import resolve from 'rollup-plugin-node-resolve-angular';
-import typescript from 'rollup-plugin-typescript2';
 import angular from 'rollup-plugin-angular';
-import copy from 'rollup-plugin-copy';
 import commonjs from 'rollup-plugin-commonjs';
 import uglify from 'rollup-plugin-uglify';
 import pkgGen from 'rollup-plugin-pkg-generator';
@@ -10,6 +8,13 @@ import pkg from './package.json';
 var fs = require('fs');
 
 import { minify } from 'uglify-es';
+
+
+const globals = {
+  "@angular/core" : "ng.core",
+  "@angular/common" : "ng.common",
+  "@angular/router" : "ng.router"
+};
 
 function copyFile(source, target, cb) {
   var cbCalled = false;
@@ -56,8 +61,8 @@ function cleanName(name){
 	return name;
 }
 
-const entryFile = './src/index.ts';
-const esFile = 'index.js';
+const entryFile = './build/index.js';
+const esFile = 'module.js';
 const bundleFile = cleanName(pkg.name) + '.umd.js';
 const minFile = cleanName(pkg.name) + '.umd.min.js';
 const targetFolder = './dist/';
@@ -73,15 +78,16 @@ var umdConfig = {
 		name : bundleFile.split('.')[0].replace(/-/g, '_'),
 		plugins : [
 			angular(),
-			typescript(),
 			resolve({
 				jsnext: true,
 				main: true,
 				browser: true
 			}),
-			autoExternal(),
-			commonjs()
-		]
+			commonjs(),
+			autoExternal()
+		],
+		external: Object.keys(globals),
+		globals: globals
 };
 
 var minifyConfig = {
@@ -95,26 +101,26 @@ var minifyConfig = {
 		name : minFile.split('.')[0].replace(/-/g, '_'),
 		plugins : [
 			angular(),
-			typescript(),
 			resolve({
 				jsnext: true,
 				main: true,
 				browser: true
 			}),
-			autoExternal(),
 			commonjs(),
+			autoExternal(),
 			uglify({}, minify),
 			pkgGen({pkg:{
 				main: bundleFile,
 				module: esFile,
 				"jsnext:main": esFile,
-				browser: bundleFile,
 				dependencies: pkg.peerDependencies,
 				devDependencies: {},
 				scripts: {},
 				typings: 'index.d.ts'
 			}})
-		]
+		],
+		external: Object.keys(globals),
+		globals: globals
 };
 
 

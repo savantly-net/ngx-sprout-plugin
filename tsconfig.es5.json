@@ -4,7 +4,7 @@
 		"declaration": true,
 		"stripInternal": true,
 		"target": "es5",
-		"module": "es2015",
+		"module": "umd",
 		"moduleResolution": "node",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
@@ -21,11 +21,11 @@
 			]
         },
 		"lib": [
-		    "es2015",
+		    "es5",
 			"dom"
 		],
 		"rootDir": "./src",
-		"outDir": "./dist"
+		"outDir": "./build"
 	},
 	"files":["./src/index.ts"],
     "compileOnSave": false,
@@ -34,9 +34,8 @@
     "./node_modules"
     ],
 	"angularCompilerOptions": {
-        "annotateForClosureCompiler": true,
         "strictMetadataEmit": true,
 		"skipTemplateCodegen": true,
-		"genDir": "./aot"
+		"debug": true
     }
 }
