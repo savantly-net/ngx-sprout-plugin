@@ -1,6 +1,4 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-TestBed.initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 
 import { SproutPluginRegistryService } from './sprout-plugin-registry.service';
 

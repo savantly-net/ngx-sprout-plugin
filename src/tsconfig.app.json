@@ -1,0 +1,21 @@
+{
+  "extends": "../tsconfig.json",
+  "angularCompilerOptions": {
+    "paths": {
+      "@savantly/ngx-sprout-plugin": [ "../.ng_build/ts/ngx-sprout-plugin" ]
+    }
+  },
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "module": "es2015",
+    "baseUrl": "",
+    "types": [],
+    "paths": {
+      "@savantly/ngx-sprout-plugin": [ "../.ng_build/ts/ngx-sprout-plugin" ]
+    }
+  },
+  "exclude": [
+    "test.ts",
+    "**/*.spec.ts"
+  ]
+}
