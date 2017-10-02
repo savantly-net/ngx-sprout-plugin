@@ -1,6 +1,6 @@
 {
   "name": "@savantly/ngx-sprout-plugin",
-  "version": "1.1.12",
+  "version": "1.1.17",
   "description": "Angular interface for Sprout plugins",
   "main": "index.ts",
   "homepage": "https://github.com/savantly-net/ngx-sprout-plugin",
