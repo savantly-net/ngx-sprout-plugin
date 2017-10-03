@@ -1,4 +1,5 @@
-import { Component, NgModuleFactoryLoader, SystemJsNgModuleLoader, AfterViewInit } from '@angular/core';
+import { Component, NgModuleFactoryLoader, SystemJsNgModuleLoader, AfterViewInit,
+   ViewChild, ViewContainerRef, OnInit, NgModuleFactory, Injector } from '@angular/core';
 import { SproutPluginRegistryService } from './sprout-plugin-registry.service';
 
 
@@ -11,14 +12,22 @@ import { SproutPluginRegistryService } from './sprout-plugin-registry.service';
     }
   ]
 })
-export class SproutPluginLoaderComponent implements AfterViewInit {
+export class SproutPluginLoaderComponent implements OnInit {
+  @ViewChild('container', { read: ViewContainerRef }) container: ViewContainerRef;
 
-  constructor(
-              private _pluginRegistryService: SproutPluginRegistryService) {
-    this._pluginRegistryService.getPlugins();
+  ngOnInit() {
+    this.loader.load('/etc/sprout/plugins/sprout-wiki/sprout-wiki-plugin#WikiModule').then((moduleFactory: NgModuleFactory<any>) => {
+      console.log('LOADED WikiModule******');
+      const entryComponent = (<any>moduleFactory.moduleType).entry;
+      const moduleRef = moduleFactory.create(this.inj);
+
+      const compFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(entryComponent);
+      this.container.createComponent(compFactory);
+    });
   }
 
-  ngAfterViewInit() {
-
+  constructor(private _pluginRegistryService: SproutPluginRegistryService,
+    private loader: SystemJsNgModuleLoader, private inj: Injector) {
+    this._pluginRegistryService.getPlugins();
   }
 }

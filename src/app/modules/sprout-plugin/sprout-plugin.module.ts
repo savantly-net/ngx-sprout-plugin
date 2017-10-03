@@ -22,7 +22,7 @@ export class SproutPluginModule {
   constructor (@Optional() @SkipSelf() parentModule: SproutPluginModule) {
     if (parentModule) {
       throw new Error(
-        'SecurityModule is already loaded. Import it in the AppModule only');
+        'SproutPluginModule is already loaded. Import it in the AppModule only');
     }
   }
 }
