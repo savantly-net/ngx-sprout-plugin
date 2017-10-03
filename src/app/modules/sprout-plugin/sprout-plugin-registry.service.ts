@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
-export interface SproutPlugin {
-  name: string,
-  template: any
+export abstract class SproutPlugin {
+  name: string
 }
 
 
